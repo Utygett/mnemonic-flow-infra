@@ -15,17 +15,20 @@ services:
       retries: 10
 
   backend:
-    build: ../backend
+    build: ../mnemonic-flow-backend
     restart: unless-stopped
     environment:
       DATABASE_URL: ${DATABASE_URL}
+      SECRET_KEY: ${SECRET_KEY}
+      ALGORITHM: ${ALGORITHM}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
     depends_on:
       db:
         condition: service_healthy
 
   frontend:
     build:
-      context: ../frontend
+      context: ../mnemonic-flow-frontend
       args:
         VITE_API_URL: /api
     restart: unless-stopped
@@ -39,7 +42,8 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./deploy/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./deploy/nginx/conf.d:/etc/nginx/conf.d:ro
+
 
 volumes:
   pgdata:
