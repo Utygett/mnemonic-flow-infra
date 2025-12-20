@@ -26,12 +26,13 @@ services:
       db:
         condition: service_healthy
 
+
   frontend:
-    build:
-      context: ../mnemonic-flow-frontend
-      args:
-        VITE_API_URL: /api
+    image: nginx:alpine
     restart: unless-stopped
+    volumes:
+      - ./deploy/frontend/dist:/usr/share/nginx/html:ro
+
 
   nginx:
     image: nginx:alpine
