@@ -38,6 +38,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./deploy/frontend/dist:/usr/share/nginx/html:ro
+      - /opt/mnemonicflow/mnemonic-flow-frontend/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
 
 
   nginx:
